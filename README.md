@@ -1,1 +1,1 @@
-Course in ML learning
+Course in Machine Learning
