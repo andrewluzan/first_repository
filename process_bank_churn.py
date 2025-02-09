@@ -216,12 +216,15 @@ def preprocess_new_data(
     Returns:
         pd.DataFrame: Preprocessed dataframe ready for prediction or evaluation.
     """
+    # Apply the same feature engineering as in training.
     df_processed = add_feature_engineering(new_df)
 
-    # Identify numeric columns and exclude the ones that were not scaled.
+    # Identify numeric columns and exclude those not used during training.
     numeric_cols = df_processed.select_dtypes(include=np.number).columns.tolist()
     exclude_cols = ["HasCrCard", "Tenure", "Balance", "CustomerId"]
     numeric_cols = [col for col in numeric_cols if col not in exclude_cols]
+    # Фільтруємо числові ознаки, залишаючи лише ті, що входили до набору ознак при навчанні.
+    numeric_cols = [col for col in numeric_cols if col in feature_cols]
 
     # Specify the categorical columns to encode.
     categorical_cols_ohe = [
